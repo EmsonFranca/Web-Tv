@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useContext } from "react";
 import { HomeContext } from "./context/HomeContext";
@@ -12,7 +12,7 @@ export default function Home() {
     playPause,
     totalTime,
     currentTime,
-    configCurrentTime
+    configCurrentTime,
   } = useContext(HomeContext);
   return (
     <main className="">
@@ -24,21 +24,26 @@ export default function Home() {
 
       <div className=" bg-gray-950 text-center ">
         <div className="flex justify-center">
-          <video ref={videoRef} className="pt-4" controls src={videoURL}></video>
+          <video
+            ref={videoRef}
+            className="pt-4"
+            controls
+            src={videoURL}
+          ></video>
         </div>
         <div className="flex-col flex items-center pt-2 gap-1">
-          <input 
-            type="range" 
-            min={0} 
-            max={totalTime} 
-            value={currentTime} 
-            onChange={
-              (e)=>configCurrentTime(Number(e.target.value))}
+          <input
+            type="range"
+            min={0}
+            max={totalTime}
+            value={currentTime}
+            onChange={(e) => configCurrentTime(Number(e.target.value))}
           />
-          <button className="bg-orange-400 p-2 mt-4 rounded-xl mb-4" onClick={playPause} >
-
-            { playing ? <FaPause /> : <FaPlay /> }
-             
+          <button
+            className="bg-orange-400 p-2 mt-4 rounded-xl mb-4"
+            onClick={playPause}
+          >
+            {playing ? <FaPause /> : <FaPlay />}
           </button>
         </div>
       </div>
