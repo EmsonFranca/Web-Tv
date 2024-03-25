@@ -2,6 +2,7 @@
 
 import { useContext } from "react";
 import { HomeContext } from "./context/HomeContext";
+import { FaPause, FaPlay } from "react-icons/fa";
 
 export default function Home() {
   const {
@@ -21,9 +22,9 @@ export default function Home() {
         </li>
       </ul>
 
-      <div className=" bg-gray-950 text-center  ">
+      <div className=" bg-gray-950 text-center ">
         <div className="flex justify-center">
-          <video ref={videoRef} className="pt-4" controls src="video/video01.mp4"></video>
+          <video ref={videoRef} className="pt-4" controls src={videoURL}></video>
         </div>
         <div className="flex-col flex items-center pt-2 gap-1">
           <input 
@@ -35,8 +36,9 @@ export default function Home() {
               (e)=>configCurrentTime(Number(e.target.value))}
           />
           <button className="bg-orange-400 p-2 mt-4 rounded-xl mb-4" onClick={playPause} >
-            {/* { playing ? <FaPause> : <Faplay> } */}
-              play | pause 
+
+            { playing ? <FaPause /> : <FaPlay /> }
+             
           </button>
         </div>
       </div>
