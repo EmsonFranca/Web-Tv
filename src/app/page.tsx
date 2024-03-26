@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { HomeContext } from "./context/HomeContext";
 import { FaPause, FaPlay } from "react-icons/fa";
+import videos from "./data/videos";
 
 export default function Home() {
   const {
@@ -16,11 +17,11 @@ export default function Home() {
   } = useContext(HomeContext);
   return (
     <main className="">
-      <ul className="bg-gray-800 text-opacity-10 p-4 ">
-        <li className="font-bold text-center text-zinc-50">
-          URL: {videoURL} - {playing ? "true" : "false"}
-        </li>
-      </ul>
+      <div className="bg-gray-800 text-opacity-10 p-4 ">
+        <h1 className="font-bold text-center text-zinc-50">
+          Titulo: 
+        </h1>
+      </div>
 
       <div className=" bg-gray-950 text-center ">
         <div className="flex justify-center">

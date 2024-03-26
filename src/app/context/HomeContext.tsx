@@ -1,6 +1,5 @@
 "use client";
 
-import { log } from "console";
 import {
   ReactNode,
   RefObject,
@@ -9,6 +8,8 @@ import {
   useState,
   useEffect,
 } from "react";
+// importando os videos
+import videos, { Video } from "../data/videos";
 
 type HomeContextData = {
   videoURL: string;
@@ -29,14 +30,23 @@ type ProviderProps = {
 
 const HomeContextProvider = ({ children }: ProviderProps) => {
   const [videoURL, setVideoURL] = useState("");
+  const [videoIndex, setVideoIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    setVideoURL("video/video01.mp4");
+    configVideo(videoIndex)
   }, []);
+
+  const configVideo = (index: number) => {
+    const currentIndex = index % videos.length;
+    const currentVideo: Video = videos[currentIndex];
+    const currentVideoURL = currentVideo.videoURL;
+    setVideoURL(currentVideoURL);
+    setVideoIndex(currentIndex)
+  }
 
   useEffect(() => {
     const video = videoRef.current;
@@ -44,10 +54,17 @@ const HomeContextProvider = ({ children }: ProviderProps) => {
       video.onloadedmetadata = () => {
         setTotalTime(video.duration);
         setCurrentTime(video.currentTime);
-      };
+      }; 
+
+      if(playing) {
+        video.play;
+      }
+
+      video.onended = () => {
+        configVideo(videoIndex + 1)
+      }
     }
-  }),
-    [videoURL];
+  }), [videoURL];
 
   const configCurrentTime = (time: number) => {
     const video = videoRef.current;
