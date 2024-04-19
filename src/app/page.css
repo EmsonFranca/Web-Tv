@@ -13,7 +13,16 @@
     object-fit: cover;
   }
 .title{
-    color:solid #000;
+    color: #fff;
     font-size: larger;
-    
 }  
+.volume {
+  display: flex;
+  gap: 2rem;
+}
+.content {
+  background: black;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}

@@ -8,7 +8,7 @@ export type Video = {
 const videos: Video[] = [
     {
         title:"Mapa-SUNSET–VALORANT",
-        videoURL: "video/Mapa-SUNSET–VALORANT.mp4",
+        videoURL: "video/Mapa-SUNSET-VALORANT.mp4",
         imageURL: "image/sunset.png",
         description: "Valorant"
     }

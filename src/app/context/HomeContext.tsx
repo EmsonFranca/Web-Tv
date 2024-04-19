@@ -15,8 +15,10 @@ type HomeContextData = {
     playPause: () => void;
     configCurrentTime: (time:number) => void;
     configVideo: (index: number) => void;
-    configFilter: (index: number) => void;
-    
+    configVolume: (volume: number) => void;
+    muteUnmute: () => void;
+    volume: number;
+    startVideo: () => void;
 }
 
 export const HomeContext =
@@ -34,6 +36,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
     const [totalTime, setTotalTime] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [currentVideoTitle, setCurrentVideoTitle] = useState("");
+    const [volume, setVolume] = useState(1);
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     
@@ -77,6 +80,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
             video.onended = () => {
                 configVideo(videoIndex + 1);
             }
+            startVideo();
         }
         draw();
     }, [videoURL, filterIndex]);
@@ -126,6 +130,32 @@ const HomeContextProvider = ({children}: ProviderProps) => {
         context.putImageData(imageData, 0, 0);
         requestAnimationFrame(draw);
     }
+    const configVolume = (volume: number) => {
+        const video = videoRef.current;
+        if (!video) return;
+    
+        video.volume = volume;
+        setVolume(video.volume); 
+        
+    }
+    
+    const muteUnmute = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.muted = !video.muted;
+        if (video.muted) {
+            setVolume(0);
+        } else {
+            setVolume(1);
+        }
+    }
+    const startVideo = () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        video.play();
+        setPlaying(true);
+    }
 
     return (
         <HomeContext.Provider value={
@@ -139,8 +169,11 @@ const HomeContextProvider = ({children}: ProviderProps) => {
                 playPause,
                 configCurrentTime,
                 configVideo,
-                configFilter,
-                currentVideoTitle
+                currentVideoTitle,
+                configVolume,
+                muteUnmute,
+                volume,
+                startVideo,
             }
         }>
          {children}

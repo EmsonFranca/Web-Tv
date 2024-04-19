@@ -5,10 +5,11 @@
 import { useContext, useState } from "react";
 import { HomeContext } from "./context/HomeContext";
 import { FaPause, FaPlay } from "react-icons/fa";
+import { BsVolumeMuteFill } from "react-icons/bs";
 import { MdFullscreen } from "react-icons/md";
 import videos, { Video } from "./data/video";
 import { convertTimeToString } from "./utils/Utils";
-
+import video from "./data/video";
 
 export default function Home() {
   const [showFilter, setShowFilter] = useState(true);
@@ -22,17 +23,29 @@ export default function Home() {
     playPause,
     configCurrentTime,
     configVideo,
-    configFilter,
     currentVideoTitle,
+    configVolume,
+    muteUnmute,
   } = useContext(HomeContext);
+
   const [fullscreen, setFullscreen] = useState(false);
 
   const toggleFullscreen = () => {
     setFullscreen(!fullscreen);
   };
+  const handleChangeTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(e.target.value);
+    configCurrentTime(time);
+  };
+
+  const handleChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const volume = parseFloat(e.target.value);
+    configVolume(volume); // Atualizando o volume usando a função do contexto
+  };
+
   return (
-    <main className="mx-auto w-full h-full flex gap-4" >
-      <div className="w-[65%] mr-1 ">
+    <main className="mx-auto w-full h-full flex gap-4">
+      <div className="w-[65%] mr-1">
         <video
           className="w-full"
           ref={videoRef}
@@ -45,14 +58,11 @@ export default function Home() {
           hidden={!showFilter}
         ></canvas>
 
-        <div className="bg-black flex gap-8">
+        <div className="content pt-5">
           <input
             className="appearance-none
-                            [&::-webkit-slider-runnable-track]:appearance-none
+                          
                             [&::-webkit-slider-runnable-track]:bg-[#ff0000]
-                            [&::-webkit-slider-runnable-track]:h-[10px]
-                            [&::-webkit-slidershowFilter-thumb]:h-[10px]
-                            [&::-webkit-slider-thumb]:w-[10px]
                             [&::-webkit-slider-thumb]:bg-[#000000]
                             "
             type="range"
@@ -66,36 +76,28 @@ export default function Home() {
           </button>
           <div className="telaCheia">
             <button className={`${fullscreen ? "fullscreen" : ""}`}>
-            <MdFullscreen />
+              <MdFullscreen />
             </button>
           </div>
-          <select
-            onChange={(e) => configFilter(Number(e.target.value))}
-            hidden={!showFilter}
-          >
-            <option selected value={0}>
-              Sem filtro
-            </option>
-            <option value={1}>Verde</option>
-            <option value={2}>Azul</option>
-            <option value={3}>Vermelho</option>
-            <option value={4}>Preto e branco</option>
-          </select>
-          <input
-            type="checkbox"
-            name="Filtro"
-            onChange={() => setShowFilter(!showFilter)}
-          />
-          <div className="timeVideo text-white flex gap-8">
-            <span className="">
-              {convertTimeToString(currentTime)}
-            </span>
-            <span>
-              {convertTimeToString(totalTime)}
-            </span>
-          </div>
-
           
+          <div className="volume">
+            <button className="" onClick={muteUnmute}>
+            <BsVolumeMuteFill  className="bg-white"/>
+            </button>
+
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={video.volume}
+              onChange={handleChangeVolume}
+            />
+          </div>
+          <div className="timeVideo text-white flex gap-8">
+            <span className="">{convertTimeToString(currentTime)}</span>
+            <span>{convertTimeToString(totalTime)}</span>
+          </div>
         </div>
         <div className="content p-4">
           <h1 className="title"> {currentVideoTitle} </h1>
