@@ -43,7 +43,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
 
     useEffect(()=>{
         configVideo(videoIndex);
-    }, []);
+    }, [videoIndex]);
 
     const configVideo = (index: number) => {
         const currentIndex = index % videos.length;
@@ -83,7 +83,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
             startVideo();
         }
         draw();
-    }, [videoURL, filterIndex]);
+    }, [videoURL, filterIndex,playing,videoIndex]);
 
     const configCurrentTime = (time: number) => {
         const video = videoRef.current;
